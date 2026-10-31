@@ -43,4 +43,3 @@ public class DisconnectStatusTest {
         System.out.println("PASS: successful and cancelled disconnect preserve their actual status (2 cases)");
     }
 }
-

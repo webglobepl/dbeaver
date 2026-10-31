@@ -32,4 +32,3 @@ public class JobCallbackTest {
         if (!done.await(10, TimeUnit.SECONDS)) throw new AssertionError("Callback timeout");
     }
 }
-

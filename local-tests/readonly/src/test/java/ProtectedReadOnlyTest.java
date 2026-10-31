@@ -173,4 +173,3 @@ class ProtectedReadOnlyTest {
         assertTrue(c.isClosed());
     }
 }
-
