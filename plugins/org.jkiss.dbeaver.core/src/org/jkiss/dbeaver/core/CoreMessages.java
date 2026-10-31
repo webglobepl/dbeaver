@@ -386,6 +386,17 @@ public class CoreMessages extends NLS {
 
     public static String pref_page_user_interface_fonts_modify_tooltip;
 
+    public static String protected_readonly_title;
+    public static String protected_readonly_busy;
+    public static String protected_readonly_reconnect;
+    public static String protected_readonly_description;
+    public static String protected_readonly_readwrite;
+    public static String protected_readonly_standard;
+    public static String protected_readonly_protected;
+    public static String protected_readonly_cancel;
+    public static String protected_readonly_active;
+    public static String protected_readonly_pending;
+
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, CoreMessages.class);

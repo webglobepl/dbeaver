@@ -479,7 +479,7 @@ public class DataSourceDescriptor
 
     @Override
     public boolean isConnectionReadOnly() {
-        return connectionReadOnly;
+        return connectionReadOnly || isConnectionProtectedReadOnly();
     }
 
     @Override
@@ -490,7 +490,7 @@ public class DataSourceDescriptor
     @Override
     public boolean hasModifyPermission(@NotNull DBPDataSourcePermission permission) {
         if ((permission == DBPDataSourcePermission.PERMISSION_EDIT_DATA ||
-            permission == DBPDataSourcePermission.PERMISSION_EDIT_METADATA) && connectionReadOnly) {
+            permission == DBPDataSourcePermission.PERMISSION_EDIT_METADATA) && isConnectionReadOnly()) {
             return false;
         }
         if (CommonUtils.isEmpty(connectionModifyRestrictions)) {
@@ -1406,6 +1406,9 @@ public class DataSourceDescriptor
             }
         }
 
+        if (isConnectionProtectedReadOnly() && !(provider instanceof DBCProtectedReadOnly)) {
+            throw new DBCException("Protected read-only: this prototype has no verified adapter for this provider.");
+        }
         this.dataSource = provider.openDataSource(monitor, this);
         this.connectTime = new Date();
         monitor.worked(1);
@@ -1443,6 +1446,9 @@ public class DataSourceDescriptor
         DBPConnectionConfiguration info = getActualConnectionConfiguration();
         DBRShellCommand command = info.getEvent(eventType);
         if (command != null && command.isEnabled()) {
+            if (isConnectionProtectedReadOnly()) {
+                throw new DBCException("Protected read-only: connection shell commands are disabled.");
+            }
             UIServiceShellCommands shellCommandsService = DBWorkbench.getService(UIServiceShellCommands.class);
             if (shellCommandsService != null) {
                 shellCommandsService.validateByUser(command, createApprovalContext(eventType));

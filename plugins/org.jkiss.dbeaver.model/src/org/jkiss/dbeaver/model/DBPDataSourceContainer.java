@@ -26,6 +26,7 @@ import org.jkiss.dbeaver.model.connection.DBPDriver;
 import org.jkiss.dbeaver.model.connection.DBPDriverSubstitutionDescriptor;
 import org.jkiss.dbeaver.model.connection.DBPNativeClientLocation;
 import org.jkiss.dbeaver.model.data.DBDFormatSettings;
+import org.jkiss.dbeaver.model.exec.DBCProtectedReadOnly;
 import org.jkiss.dbeaver.model.navigator.DBNBrowseSettings;
 import org.jkiss.dbeaver.model.net.DBWNetworkHandler;
 import org.jkiss.dbeaver.model.preferences.DBPPreferenceStore;
@@ -126,6 +127,10 @@ public interface DBPDataSourceContainer extends
     void setSelectedSharedCredentials(@NotNull DBSSecretValue secretValue);
 
     boolean isConnectionReadOnly();
+
+    default boolean isConnectionProtectedReadOnly() {
+        return getPreferenceStore().getBoolean(DBCProtectedReadOnly.CONFIG_KEY);
+    }
 
     /**
      * Updates read-only param in data source.

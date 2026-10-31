@@ -253,6 +253,14 @@ public abstract class JDBCDataSource extends AbstractDataSource
                 initializeDriverContext(driverInstance);
             }
 
+            if (container.isConnectionProtectedReadOnly()) {
+                // Transparent driver reconnect could replace a verified server session between checks.
+                connectProps.setProperty("autoReconnect", "false");
+                connectProps.setProperty("autoReconnectForPools", "false");
+                if (url != null && url.toLowerCase(java.util.Locale.ROOT).contains("autoreconnect")) {
+                    throw new DBCException("Protected read-only: remove automatic reconnect options from the JDBC URL.");
+                }
+            }
             JDBCConnectionOpener connectTask = new JDBCConnectionOpener(
                 this,
                 driver,
@@ -301,6 +309,9 @@ public abstract class JDBCDataSource extends AbstractDataSource
                 }
             }
 
+            if (container.isConnectionProtectedReadOnly()) {
+                return JDBCProtectedReadOnlyConnection.protect(connectTask.getConnection());
+            }
             // Set read-only flag
             if (container.isConnectionReadOnly() && !isConnectionReadOnlyBroken()) {
                 connectTask.getConnection().setReadOnly(true);

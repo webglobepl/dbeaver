@@ -1,0 +1,21 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: dbeaver-ro-test-mysql
+    labels: { purpose: dbeaver-readonly-test }
+    ports: ['127.0.0.1:13316:3306']
+    environment:
+      MYSQL_ROOT_PASSWORD: local_ro_test
+      MYSQL_DATABASE: readonly_test
+    mem_limit: 768m
+    cpus: 1
+  postgres:
+    image: postgres:17
+    container_name: dbeaver-ro-test-postgres
+    labels: { purpose: dbeaver-readonly-test }
+    ports: ['127.0.0.1:15436:5432']
+    environment:
+      POSTGRES_PASSWORD: local_ro_test
+      POSTGRES_DB: readonly_test
+    mem_limit: 384m
+    cpus: 1

@@ -1,6 +1,6 @@
 /*
  * DBeaver - Universal Database Manager
- * Copyright (C) 2010-2024 DBeaver Corp and others
+ * Copyright (C) 2010-2026 DBeaver Corp and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,9 +53,7 @@ public class DisconnectJob extends DataSourceUpdaterJob
     protected IStatus updateDataSource(DBRProgressMonitor monitor) {
         try {
             long startTime = System.currentTimeMillis();
-            container.disconnect(monitor);
-
-            connectStatus = Status.OK_STATUS;
+            connectStatus = container.disconnect(monitor) ? Status.OK_STATUS : Status.CANCEL_STATUS;
         }
         catch (Throwable ex) {
             connectStatus = GeneralUtils.makeExceptionStatus(ex);

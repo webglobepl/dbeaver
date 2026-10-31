@@ -27,6 +27,7 @@ import org.jkiss.dbeaver.model.access.DBAAuthModel;
 import org.jkiss.dbeaver.model.connection.DBPAuthModelDescriptor;
 import org.jkiss.dbeaver.model.connection.DBPConnectionConfiguration;
 import org.jkiss.dbeaver.model.connection.DBPDriver;
+import org.jkiss.dbeaver.model.exec.DBCProtectedReadOnly;
 import org.jkiss.dbeaver.model.impl.AbstractDataSourceProvider;
 import org.jkiss.dbeaver.model.impl.PropertyDescriptor;
 import org.jkiss.dbeaver.model.messages.ModelMessages;
@@ -43,7 +44,8 @@ import java.util.Properties;
 /**
  * JDBCDataSourceProvider
  */
-public abstract class JDBCDataSourceProvider<DATASOURCE extends JDBCDataSource> extends AbstractDataSourceProvider<DATASOURCE> {
+public abstract class JDBCDataSourceProvider<DATASOURCE extends JDBCDataSource> extends AbstractDataSourceProvider<DATASOURCE>
+    implements DBCProtectedReadOnly {
     static final protected Log log = Log.getLog(JDBCDataSourceProvider.class);
 
     protected JDBCDataSourceProvider(@NotNull Class<? extends DATASOURCE> dsClass) {

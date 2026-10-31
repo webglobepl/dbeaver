@@ -1,6 +1,6 @@
 /*
  * DBeaver - Universal Database Manager
- * Copyright (C) 2010-2025 DBeaver Corp and others
+ * Copyright (C) 2010-2026 DBeaver Corp and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,6 +70,9 @@ public abstract class AbstractNativeToolHandler<SETTINGS extends AbstractNativeT
         @NotNull DBTTaskExecutionListener listener
     ) throws DBException {
         SETTINGS settings = createTaskSettings(runnableContext, task);
+        if (settings.getDataSourceContainer().isConnectionProtectedReadOnly()) {
+            throw new DBCException("Protected read-only: native tools use separate connections and are disabled.");
+        }
         settings.setLogWriter(logStream);
         if (!validateTaskParameters(task, settings, log)) {
             listener.taskFinished(task, null, new InterruptedException("Task parameters validation failed"), settings);

@@ -271,6 +271,7 @@ public class UIIcon {
     public static final DBIcon RUN = new DBIcon("run.svg"); //$NON-NLS-1$
 
     public static final DBIcon BUTTON_READ_ONLY = new DBIcon("buttons/lock.png"); //$NON-NLS-1$
+    public static final DBIcon SQL_PROTECTED_READONLY = new DBIcon("sql/protected-readonly.svg"); //$NON-NLS-1$
     public static final DBIcon BUTTON_TUNNEL = new DBIcon("buttons/tunnel.png"); //$NON-NLS-1$
     public static final DBIcon BUTTON_CLOUD = new DBIcon("buttons/cloud.png"); //$NON-NLS-1$
 

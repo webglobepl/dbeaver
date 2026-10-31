@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>local.dbeaver</groupId><artifactId>protected-readonly-tests</artifactId><version>1.0-SNAPSHOT</version>
+    <properties><maven.compiler.release>21</maven.compiler.release><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding></properties>
+    <dependencies>
+        <dependency><groupId>com.github.jsqlparser</groupId><artifactId>jsqlparser</artifactId><version>5.3</version></dependency>
+        <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><version>5.11.4</version><scope>test</scope></dependency>
+        <dependency><groupId>com.mysql</groupId><artifactId>mysql-connector-j</artifactId><version>9.5.0</version><scope>test</scope></dependency>
+        <dependency><groupId>org.postgresql</groupId><artifactId>postgresql</artifactId><version>42.7.8</version><scope>test</scope></dependency>
+        <dependency><groupId>com.h2database</groupId><artifactId>h2</artifactId><version>2.3.232</version><scope>test</scope></dependency>
+    </dependencies>
+    <build>
+        <sourceDirectory>${project.build.directory}/guard-sources</sourceDirectory>
+        <plugins>
+            <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.13.0</version></plugin>
+            <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><version>3.5.2</version></plugin>
+            <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-resources-plugin</artifactId><version>3.3.1</version>
+                <executions><execution><id>actual-production-sources</id><phase>generate-sources</phase><goals><goal>copy-resources</goal></goals>
+                    <configuration><outputDirectory>${project.build.directory}/guard-sources</outputDirectory><resources>
+                        <resource><directory>../../plugins/org.jkiss.dbeaver.model.jdbc/src</directory><includes>
+                            <include>**/JDBCReadOnlyPolicy.java</include><include>**/JDBCProtectedReadOnlyConnection.java</include>
+                        </includes></resource>
+                        <resource><directory>../../../dbeaver-common/modules/org.jkiss.utils/src/main/java</directory><includes>
+                            <include>org/jkiss/code/NotNull.java</include><include>org/jkiss/code/Nullable.java</include>
+                        </includes></resource>
+                    </resources></configuration>
+                </execution></executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
